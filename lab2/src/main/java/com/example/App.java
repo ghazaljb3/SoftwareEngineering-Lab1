@@ -17,7 +17,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException { //open the first window
-        scene = new Scene(loadFXML("primary"), 640, 480); //loadFXML reading the fike "primary" that contain the design of the first window
+        scene = new Scene(loadFXML("primary"), 300, 300); //loadFXML reading the fike "primary" that contain the design of the first window
+        stage.setTitle("Users Login"); //set the title of the window
         stage.setScene(scene); //scene is the content of he window that we declared in the previous line
         stage.show(); //show the window
     }
