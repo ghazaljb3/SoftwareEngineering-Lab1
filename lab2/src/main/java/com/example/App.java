@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * JavaFX App
@@ -15,9 +17,19 @@ import java.util.Scanner;
 public class App extends Application {
 
     private static Scene scene;
+    private static AttemptTracker tracker;
+    private static final BlockingQueue<FailedAttempt> failureQueue=new LinkedBlockingQueue<>();
+    private static final UserService userService = new UserService();
 
     @Override
     public void start(Stage stage) throws IOException { //open the first window
+        int n=Integer.parseInt(getParameters().getRaw().get(0));
+        int t=Integer.parseInt(getParameters().getRaw().get(1));
+        tracker=new AttemptTracker(n,t);
+        for (int i = 0; i < 2; i++) {
+            FailureWorker worker = new FailureWorker(failureQueue, tracker);
+            worker.start();
+        }
         scene = new Scene(loadFXML("primary"), 300, 300); //loadFXML reading the fike "primary" that contain the design of the first window
         stage.setTitle("Users Login"); //set the title of the window
         stage.setScene(scene); //scene is the content of he window that we declared in the previous line
@@ -32,6 +44,18 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml")); 
         return fxmlLoader.load();
     }
+
+    public static AttemptTracker getTracker() {
+    return tracker;
+    }
+    
+    public static BlockingQueue<FailedAttempt> getFailureQueue() {
+    return failureQueue;
+    }
+    
+    public static UserService getUserService() {
+    return userService;
+}
 
     public static void main(String[] args) { //responible for open the application
         int n=-1;
