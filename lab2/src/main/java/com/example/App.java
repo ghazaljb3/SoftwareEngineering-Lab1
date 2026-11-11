@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * JavaFX App
@@ -33,7 +34,32 @@ public class App extends Application {
     }
 
     public static void main(String[] args) { //responible for open the application
-        launch();
+        int n=-1;
+        int t=-1;
+        if(args.length==2){
+            try{
+                n=Integer.parseInt(args[0]);
+                t=Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter two positive numbers for n and t");
+            }
+        }
+        Scanner scanner=new Scanner(System.in);
+        while(n<1||t<1){
+            System.out.println("Enter n:");
+            String n_input=scanner.nextLine();
+            System.out.println("Enter t:");
+            String t_input=scanner.nextLine();
+            try{
+                n=Integer.parseInt(n_input);
+                t=Integer.parseInt(t_input);
+            } catch (NumberFormatException e) {
+                n=-1;
+                t=-1;
+                System.out.println("Please enter two positive numbers for n and t");
+            }
+        }
+        launch(String.valueOf(n),String.valueOf(t));
     }
 
 }
