@@ -13,6 +13,9 @@ public class UserService {
     }
 
     public AuthStatus authenticate(String email, String password) throws IOException {
+        if (email == null || password == null) {
+            throw new IllegalArgumentException("Email or password is null");
+        }
         File file=new File("users.txt");
         try (Scanner reader=new Scanner(file)){
 

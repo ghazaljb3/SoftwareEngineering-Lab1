@@ -63,14 +63,19 @@ public class LoginTask implements Runnable {
             }
                 
             }
-            catch(IOException e){
+            catch (IOException e) {
             e.printStackTrace();
-            } catch(InterruptedException e){
+            LoginResult result =new LoginResult(LoginResult.Status.ERROR, -1, 0);
+            sendResult(result);
+            } catch (IllegalArgumentException e) {
+                LoginResult result=new LoginResult(LoginResult.Status.ERROR, -1, 0);
+                sendResult(result);
+            } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return;
-            }
         }
-
+    }
+            
 
         private void sendResult(LoginResult result){
             Platform.runLater(()->onResult.accept(result));
