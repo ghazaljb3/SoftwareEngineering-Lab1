@@ -33,6 +33,21 @@ public class UserState {
         }
     }
 
+    /*public int recordFailure(int n,int t){
+        if (isBlocked()){
+            return 0;
+        }
+        else{
+            failedAttempts++;
+            if(failedAttempts>=n){
+                blockedUntilMillis=System.currentTimeMillis()+t*1000L;
+                return 0;
+            } else{
+                return n-failedAttempts;
+            }
+        }
+    }*/
+
     public synchronized void reset(){
         failedAttempts=0;
         blockedUntilMillis=0;
