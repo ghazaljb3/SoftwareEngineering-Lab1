@@ -18,6 +18,25 @@ public class PrimaryController {
 
     @FXML 
     private Label errorLabel;
+
+    @FXML 
+    private Button testButton;
+
+    @FXML
+    private void handleConcurrencyTest() {
+        testButton.setDisable(true);
+        errorLabel.setText("Running concurrency test...");
+        Thread testThread = new Thread(() -> {
+            ConcurrencyTest.runTest();
+            javafx.application.Platform.runLater(() -> {
+                errorLabel.setText("Concurrency test finished. Check Terminal.");
+                testButton.setDisable(false);
+            });
+        });
+        testThread.setDaemon(true);
+        testThread.start();
+    }
+
     @FXML 
     private void handleLogin()  {
         String enteredUsername = username.getText();
